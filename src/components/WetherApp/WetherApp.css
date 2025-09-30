@@ -125,3 +125,12 @@ padding-top: 20px;
 content: url("https://chandrasekarweb.netlify.app/");
 
 }
+
+.greeting {
+    color: #fff;
+    font-size: 18px;
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+
