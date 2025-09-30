@@ -70,11 +70,16 @@ const WetherApp = () => {
 
 
   return (
-    <div className='container'>
-      <button className='search-icon'><a href="https://chandrasekarweb.netlify.app/">Back To My Portfolio</a>
+    <>
+      <section>
+          <button className='search-icon'><a href="https://chandrasekarweb.netlify.app/">Back To My Portfolio</a>
 "</button>
       <div className="greeting">Hi.{getGreeting()}My Name is chandrasekar.D Please Try it my wether App.</div>
 
+      </section>
+    
+    <div className='container'>
+    
       <section>
         <div className='top-bar'>
           <input
@@ -124,9 +129,11 @@ const WetherApp = () => {
         </div>
       </section>
     </div>
+      </>
   );
 };
 
 export default WetherApp;
+
 
 
