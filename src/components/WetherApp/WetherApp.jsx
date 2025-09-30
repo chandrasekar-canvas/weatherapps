@@ -71,13 +71,14 @@ const WetherApp = () => {
 
   return (
     <>
-      <section>
-          <button className='search-icon'><a href="https://chandrasekarweb.netlify.app/">Back To My Portfolio</a>
-"</button>
-      <div className="greeting">Hi.{getGreeting()}My Name is chandrasekar.D Please Try it my wether App.</div>
+     <div>
+    <section>
+          <a className='portfolio' href="https://chandrasekarweb.netlify.app/">Back To My Portfolio</a>
+          <div className="greeting">{getGreeting()}</div>
+      <div className="greeting">Hi.{getGreeting()}.My Name is <span>chandrasekar.D</span> Please Try it my wether App.</div>
 
       </section>
-    
+    </div>
     <div className='container'>
     
       <section>
@@ -94,7 +95,7 @@ const WetherApp = () => {
           </div>
         </div>
 
-        {/* Suggestions Dropdown */}
+      <div className="greetings">{getGreeting()}</div>
         {suggestions.length > 0 && (
           <div className="suggestions">
             {suggestions.map((place, idx) => (
@@ -134,6 +135,7 @@ const WetherApp = () => {
 };
 
 export default WetherApp;
+
 
 
 
