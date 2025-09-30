@@ -11,77 +11,106 @@ import wind from "./Assets/wind.png";
 
 const WetherApp = () => {
   const [wicon, setWicon] = useState(cloud_icon);
+  const [temp, setTemp] = useState("--");
+  const [location, setLocation] = useState("Enter a City");
+  const [humidity, setHumidity] = useState("--");
+  const [windSpeed, setWindSpeed] = useState("--");
+  const [query, setQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
 
-  const search = async () => {
-    const element = document.getElementsByClassName("cityInput");
-    if (element[0].value === "") {
-      return 0;
+  const api_key = "876bfefd05394c4912dafc69da601b73";
+
+  // Fetch city suggestions from OpenWeatherMap Geocoding API
+  const fetchSuggestions = async (text) => {
+    if (!text) {
+      setSuggestions([]);
+      return;
     }
+    const url = `https://api.openweathermap.org/geo/1.0/direct?q=${text}&limit=5&appid=${api_key}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    setSuggestions(data);
+  };
 
-    // Define the API key before using it in the URL
-    let api_key = "876bfefd05394c4912dafc69da601b73";
-    let url = `http://api.openweathermap.org/data/2.5/weather?q=${element[0].value}&units=metric&appid=${api_key}`;
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setQuery(value);
+    fetchSuggestions(value);
+  };
 
-    let response = await fetch(url);
-    let data = await response.json();
+  // Fetch weather using selected place's lat/lon
+  const selectPlace = async (place) => {
+    setQuery(place.name);
+    setSuggestions([]);
 
-    // Extracted elements for better readability
-    let humidityElement = document.getElementsByClassName('humidity-percentace');
-    let windElement = document.getElementsByClassName('wind-rate');
-    let tempElement = document.getElementsByClassName('weather-temp');
-    let locationElement = document.getElementsByClassName('weather-location');
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${place.lat}&lon=${place.lon}&units=metric&appid=${api_key}`;
+    const res = await fetch(url);
+    const data = await res.json();
 
-    // Update UI with weather data
-    humidityElement[0].innerHTML = data.main.humidity;
-    windElement[0].innerHTML = `${data.wind.speed} km/h`;
-    tempElement[0].innerHTML = `${data.main.temp}°C`;
-    locationElement[0].innerHTML = data.name;
+    setTemp(`${Math.round(data.main.temp)}°C`);
+    setLocation(data.name);
+    setHumidity(`${data.main.humidity}%`);
+    setWindSpeed(`${data.wind.speed} km/h`);
 
-    // Update weather icon based on weather condition
-    if (data.weather[0].icon === "01d" || data.weather[0].icon === "01n") {
-      setWicon(clear_icon);
-    } else if (data.weather[0].icon === "02d" || data.weather[0].icon === "02n") {
-      setWicon(cloud_icon);
-    } else if (data.weather[0].icon === "03d" || data.weather[0].icon === "03n" || data.weather[0].icon === "04d" || data.weather[0].icon === "04n") {
-      setWicon(drizzle_icon);
-    } else if (data.weather[0].icon === "09d" || data.weather[0].icon === "09n" || data.weather[0].icon === "10d" || data.weather[0].icon === "10n") {
-      setWicon(rain_icon);
-    } else if (data.weather[0].icon === "13d" || data.weather[0].icon === "13n") {
-      setWicon(snow_icon);
-    } else {
-      setWicon(clear_icon);
-    }
+    const iconCode = data.weather[0].icon;
+    if (iconCode === "01d" || iconCode === "01n") setWicon(clear_icon);
+    else if (iconCode === "02d" || iconCode === "02n") setWicon(cloud_icon);
+    else if (["03d","03n","04d","04n"].includes(iconCode)) setWicon(drizzle_icon);
+    else if (["09d","09n","10d","10n"].includes(iconCode)) setWicon(rain_icon);
+    else if (["13d","13n"].includes(iconCode)) setWicon(snow_icon);
+    else setWicon(clear_icon);
   };
 
   return (
     <div className='container'>
-      <div className='top-bar'>
-        <input type="text" className='cityInput' id="city" placeholder='Enter City' />
-        <div className='search-icon' onClick={search}>
-          <img src={searchicons} alt="" />
-        </div>
-      </div>
-      <div className='weather-image'>
-        <img src={wicon} alt="" />
-      </div>
-      <div className='weather-temp'>24°C</div>
-      <div className='weather-location'>sekar wether App</div>
-      <div className='data-container'>
-        <div className='element'>
-          <img src={four} className='icon' />
-          <div className='data'>
-            <div className="humidity-percentace">64%</div>
-            <div className="text">Humidity</div>
+      <section>
+        <div className='top-bar'>
+          <input
+            type="text"
+            className='cityInput'
+            placeholder='Enter City'
+            value={query}
+            onChange={handleInputChange}
+          />
+          <div className='search-icon' onClick={() => query && fetchSuggestions(query)}>
+            <img src={searchicons} alt="search" />
           </div>
         </div>
-        <div className='element'>
-          <img src={wind} className='icon' />
-          <div className='data'>
-            <div className="wind-rate">18 km/h</div>
-            <div className="text">Wind Speed</div>
+
+        {/* Suggestions Dropdown */}
+        {suggestions.length > 0 && (
+          <div className="suggestions">
+            {suggestions.map((place, idx) => (
+              <div key={idx} className="suggestion-item" onClick={() => selectPlace(place)}>
+                {place.name}, {place.country}
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div className='weather-image'>
+          <img src={wicon} alt="weather icon" />
+        </div>
+        <div className='weather-temp'>{temp}</div>
+        <div className='weather-location'>{location}</div>
+
+        <div className='data-container'>
+          <div className='element'>
+            <img src={four} className='icon' alt="humidity" />
+            <div className='data'>
+              <div className="humidity-percentace">{humidity}</div>
+              <div className="text">Humidity</div>
+            </div>
+          </div>
+          <div className='element'>
+            <img src={wind} className='icon' alt="wind" />
+            <div className='data'>
+              <div className="wind-rate">{windSpeed}</div>
+              <div className="text">Wind Speed</div>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
