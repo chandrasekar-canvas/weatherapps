@@ -72,8 +72,10 @@ padding-top: 20px;
 
 .weather-image{
     display:flex;
+   
     justify-content: center;
     margin-top:29px;
+    margin-left: 110px;
     width: 100px; 
     height: 100px;
 }
@@ -163,6 +165,7 @@ content: url("https://chandrasekarweb.netlify.app/");
     margin-top: 10px;
     font-weight: 500;
 }
+
 
 
 
