@@ -1,27 +1,29 @@
 .container{
-    width:607px;
-    height:829px;
+    width:320px;
+    height:459px;
     margin:auto;
-    margin-top:75px;
-    border-radius: 75px;
+    margin-top:55px;
+    border-radius: 45px;
     background-image: linear-gradient(180deg, blue 0%,green 50%,yellow 100%);
+    padding:10px;
 }
+
 .top-bar{
 display:flex;
 justify-content: center;
-gap: 14px;
-padding-top: 60px;
+gap: 10px;
+padding-top: 20px;
 }
 .top-bar input{
     display: flex;
-    width: 400px;
-    height: 68px;
+    width: 200px;
+    height: 48px;
     background-color: #fff;
     border: none;
     outline: none;
-    border-radius: 40px;
-    padding-left:40px;
-    font-size: 20px;
+    border-radius: 20px;
+    padding-left:20px;
+    font-size: 16px;
     font-weight: 400px;
 }
 .search-icon
@@ -29,8 +31,8 @@ padding-top: 60px;
     display:flex ;
     justify-content:center;
     align-items: center;
-    width: 78px;
-    height:78px;
+    width: 48px;
+    height:48px;
     background-color: #ebfffc;
     border-radius: 40px;
     cursor: pointer;
@@ -41,13 +43,15 @@ padding-top: 60px;
     display:flex;
     justify-content: center;
     margin-top:29px;
+    width: 100px; 
+    height: 100px;
 }
 
 .weather-temp{
     display:flex;
     justify-content: center;
-   
-    font-size: 120px;
+    text-align: center;
+    font-size: 40px;
     font-weight: 400;
     color:#fff;
 }
@@ -56,36 +60,68 @@ padding-top: 60px;
     display:flex;
     justify-content: center;
     color:#ebffff;
-    font-size: 60px;
+    text-align: center;
     font-weight: 400;
+    font-size: 24px;
+    color: #ebffff;
 
 
 }
 .data-container{
     display:flex;
-    justify-content: center;
-    margin-top:50px;
+    justify-content: space-around;
+    margin-top:20px;
     color: #ebfffc;
 }
 .element
 {
-    margin:auto;
+    
     display:flex;
-    align-items:flex-start;
-    gap:12px;
+    align-items:center;
+    gap:8px;
 
 
 }
 
 .data{
-    font-size:34px;
+    font-size:14px;
     font-weight: 400;
 
 }
 .text{
-    font-size:20px;
+    font-size:10px;
     font-weight: 400;
 }
 .icon{
-    margin-top: 10px;
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+}
+
+.suggestions {
+    background-color: #fff;
+    max-height: 150px;
+    overflow-y: auto;
+    border-radius: 20px;
+    scroll-behavior: smooth;
+    margin-top: 5px;
+    text-align: left;
+    position: absolute;
+    width: 200px;
+    z-index: 100;
+    margin-left:30px;
+  }
+  
+  .suggestion-item {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .suggestion-item:hover {
+    background-color: #e0e0e0;
+  }
+  
+.footer{
+content: url("https://chandrasekarweb.netlify.app/");
+
 }
